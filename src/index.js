@@ -1,5 +1,6 @@
 // alert("hello world")
 import './css/index.css'
+import { Tasks, addTaskToScreen } from './personal'
 function handlePage() {
     const container = document.createElement('div')
     container.className = 'contDiv'
@@ -137,4 +138,11 @@ function handlePage() {
     // fitnessBtn.classList.add(leftButtons)
 }
 
+
 handlePage()
+
+personalBtn.querySelector("#personalBtn")
+personalBtn.addEventListener("click", () => {
+    // console.log("hello")
+    addTaskToScreen()
+})
