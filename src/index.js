@@ -1,6 +1,7 @@
 // alert("hello world")
 import './css/index.css'
-import { Tasks, addTaskToScreen } from './personal'
+import { Tasks, addTaskToScreen, display } from './personal'
+import './css/personal.css'
 function handlePage() {
     const container = document.createElement('div')
     container.className = 'contDiv'
@@ -9,6 +10,9 @@ function handlePage() {
     leftDiv.className = 'leftDiv'
     const rightDiv = document.createElement('div')
     rightDiv.className = 'rightDiv'
+
+    const centerDiv = document.createElement('div')
+    centerDiv.className = 'centerDiv'
 
 
     // leftdiv
@@ -131,7 +135,7 @@ function handlePage() {
     leftDiv.querySelector(".leftDiv")
     leftDiv.append(title, personalBtn, schoolBtn, workBtn, fitnessBtn, addTask)
 
-    container.append(leftDiv, rightDiv)
+    container.append(leftDiv, rightDiv, centerDiv)
 
     const content = document.querySelector(".container")
     content.append(container)
@@ -145,4 +149,7 @@ personalBtn.querySelector("#personalBtn")
 personalBtn.addEventListener("click", () => {
     // console.log("hello")
     addTaskToScreen()
+    display()
 })
+
+console.log("hello")
