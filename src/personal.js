@@ -7,7 +7,7 @@ function Tasks(title, description, date, priority) {
 
 }
 
-const taskList = []
+const taskList = [];
 
 function addTaskToScreen() {
     const rightDiv = document.querySelector(".rightDiv")
@@ -27,76 +27,89 @@ function addTaskToScreen() {
 
         rightDiv.append(randomDiv)
         container.append(rightDiv)
-
-
-
     }
-
-
 }
 
 
 function addTaskToList() {
-    const title = document.querySelector('.taskTitle');
-    const description = document.querySelector('.taskdescription');
-    const date = document.querySelector(".taskdate")
-    const priority = document.getElementById('myCheckbox');
+    const title = document.querySelector('.taskTitle').textContent;
+    const description = document.querySelector('.taskdescription').textContent;
+    const date = document.querySelector(".taskdate").value
+    // const priority = document.getElementById('myCheckbox');
 
-    const newTask = new Tasks(title.textContent, description.textContent, date.value, priority.checked)
+    let priority;
+    const highInput = document.getElementById('highCheckbox');
+    const mediumInput = document.getElementById('mediumCheckbox');
+    const lowInput = document.getElementById('lowCheckbox');
+
+    if (highInput.checked) {
+        priority = "High";
+    } else if (mediumInput.checked) {
+        priority = "Medium";
+    } else if (lowInput.checked) {
+        priority = "Low";
+    } else {
+        // If no priority is selected, default to "Medium" or handle as needed
+        priority = "Medium";
+    }
+
+    const newTask = new Tasks(title, description, date, priority)
     taskList.push(newTask);
-    console.log(newTask)
+    // console.log(taskList)
+    return taskList
 
 
 }
 
 function display() {
-    const oneTask = document.createElement("div")
-    oneTask.className = 'oneTask'
+    const oneTask = document.createElement("div");
+    oneTask.className = 'oneTask';
 
-    const checkDiv = document.createElement("div")
-    checkDiv.className = 'checkDiv'
+    const checkDiv = document.createElement("div");
+    checkDiv.className = 'checkDiv';
 
-    const checkDivHeading = document.createElement("h2")
-    checkDivHeading.className = 'checkDivHeading'
-    checkDivHeading.textContent = 'Priority'
+    const checkDivHeading = document.createElement("h2");
+    checkDivHeading.className = 'checkDivHeading';
+    checkDivHeading.textContent = 'Priority';
 
-    const label = document.createElement("label");
-    label.setAttribute("for", "myCheckbox");
-    label.className = "checkbox-label";
-    label.classList.add("labelDiv")
-    label.textContent = "high "
+    const highLabel = document.createElement("label");
+    highLabel.setAttribute("for", "highCheckbox");
+    highLabel.className = "checkbox-label";
+    highLabel.textContent = "High";
 
-    const checkboxInput = document.createElement("input");
-    checkboxInput.setAttribute("type", "checkbox");
-    checkboxInput.className = "checkbox-input";
-    checkboxInput.classList.add('checkInput')
-    checkboxInput.id = "myCheckbox";
+    const highInput = document.createElement("input");
+    highInput.setAttribute("type", "checkbox");
+    highInput.className = "checkbox-input";
+    highInput.classList.add('checkInput');
+    highInput.id = "highCheckbox";
 
     const mediumLabel = document.createElement("label");
-    mediumLabel.setAttribute("for", "myCheckbox");
+    mediumLabel.setAttribute("for", "mediumCheckbox");
     mediumLabel.className = "checkbox-mediumLabel";
-    mediumLabel.classList.add("labelDiv")
-    mediumLabel.textContent = "medium "
+    mediumLabel.textContent = "Medium";
 
     const mediumInput = document.createElement("input");
     mediumInput.setAttribute("type", "checkbox");
     mediumInput.className = "checkbox-input";
-    mediumInput.classList.add('checkInput')
-    mediumInput.id = "myCheckbox";
+    mediumInput.classList.add('checkInput');
+    mediumInput.id = "mediumCheckbox";
 
     const lowLabel = document.createElement("label");
-    lowLabel.setAttribute("for", "myCheckbox");
+    lowLabel.setAttribute("for", "lowCheckbox");
     lowLabel.className = "checkbox-lowLabel";
-    lowLabel.classList.add("labelDiv")
-    lowLabel.textContent = "low "
+    lowLabel.textContent = "Low";
 
     const lowInput = document.createElement("input");
     lowInput.setAttribute("type", "checkbox");
     lowInput.className = "checkbox-input";
-    lowInput.classList.add('checkInput')
-    lowInput.id = "myCheckbox";
+    lowInput.classList.add('checkInput');
+    lowInput.id = "lowCheckbox";
 
-    checkDiv.append(label, checkboxInput, mediumLabel, mediumInput, lowLabel, lowInput)
+    checkDiv.append(highLabel, highInput, mediumLabel, mediumInput, lowLabel, lowInput);
+    // oneTask.append(checkDivHeading, checkDiv);
+
+
+    // checkDiv.append(label, checkboxInput, mediumLabel, mediumInput, lowLabel, lowInput)
 
 
     const titleDesc = document.createElement("h2");
@@ -180,6 +193,7 @@ function display() {
     const selectOptions = document.createElement('div')
     selectOptions.id = 'selectOptions'
     selectOptions.append(dueDate, dateInput, checkDivHeading, checkDiv, saveDelete)
+    // oneTask.append(checkDivHeading, checkDiv);
 
 
     oneTask.append(titleDesc, title, labelDesc, description, selectOptions)
@@ -188,14 +202,15 @@ function display() {
     container.append(rightDiv)
 
     const save = document.querySelector(".tasksaveBtn")
-    console.log(save)
+    // console.log(save)
     save.addEventListener("click", () => {
-        console.log("hello")
+        // console.log("hello")
         addTaskToList()
+        presentToScreen(taskList)
     })
 
     deleteBtn.addEventListener('click', () => {
-        checkboxInput.cheked = ''
+        highInput.cheked = ''
         mediumInput.checked = ''
         lowInput.checked = ''
 
@@ -205,6 +220,87 @@ function display() {
 
     })
 }
+
+
+function presentToScreen(taskList) {
+    const unOrdered = document.createElement('ul')
+    const centerDiv = document.querySelector('.centerDiv')
+    centerDiv.textContent = ''
+    if (!unOrdered) {
+        unOrdered = document.createElement('ul');
+        centerDiv.appendChild(unOrdered);
+    } else {
+        // If there's an existing ul element, clear its content
+        unOrdered.innerHTML = '';
+    }
+
+
+    for (let i = 0; i < taskList.length; i++) {
+        // console.log(taskList[i])
+        // const task = taskList[i];
+
+
+        let listItem = document.createElement('li')
+        listItem.className = 'listItem'
+        const titleDiv = document.createElement("h2");
+        titleDiv.classList.add("titleH2")
+        titleDiv.textContent = taskList[i].title;
+        titleDiv.setAttribute("contenteditable", "true"); // Make titleDiv editable
+        titleDiv.addEventListener("blur", function () {
+            taskList[i].title = titleDiv.textContent; // Update library data when editing is finished
+        });
+        // displayDiv.appendChild(titleDiv);
+
+        const descDiv = document.createElement("p");
+        descDiv.classList.add("descDiv")
+        descDiv.textContent = taskList[i].description;
+        descDiv.setAttribute("contenteditable", "true")
+        descDiv.addEventListener("blur", () => {
+            taskList[i].description = descDiv.textContent
+        })
+
+        const dateDiv = document.createElement("span");
+        dateDiv.classList.add("dateDiv")
+        dateDiv.textContent = taskList[i].date;
+        dateDiv.setAttribute("contenteditable", "true")
+        dateDiv.addEventListener("blur", () => {
+            taskList[i].date = dateDiv.textContent
+        })
+
+        const priorityDivHeading = document.createElement("h3");
+        priorityDivHeading.id = 'priorityDivHeading'
+
+        const priorityDiv = document.createElement("div");
+        priorityDiv.classList.add("priorityDiv")
+        priorityDiv.textContent = taskList[i].priority;
+        // priorityDiv.setAttribute("contenteditable", "true")
+        priorityDiv.addEventListener("blur", () => {
+            taskList[i].priority = priorityDiv.textContent
+        })
+
+        const deleteBtn = document.createElement('button')
+        deleteBtn.textContent = 'delete'
+        deleteBtn.className = 'delete'
+        const editBtn = document.createElement('button')
+        editBtn.textContent = 'edit'
+        editBtn.className = 'edit'
+
+
+
+        // listItem.textContent = `Title: ${task.title}, Description ${task.description}, Date: ${task.date}, Priority: ${task.priority}`;
+        listItem.append(titleDiv, descDiv, dateDiv, priorityDivHeading, priorityDiv, deleteBtn, editBtn)
+        unOrdered.append(listItem)
+        console.log(listItem)
+        centerDiv.append(unOrdered)
+
+        // centerDiv.innerHTML = ''
+    }
+    // console.log(unOrdered);
+
+
+}
+
+
 
 
 
