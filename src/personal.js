@@ -44,6 +44,7 @@ function addTaskToList() {
 
     if (highInput.checked) {
         priority = "High";
+
     } else if (mediumInput.checked) {
         priority = "Medium";
     } else if (lowInput.checked) {
@@ -226,6 +227,11 @@ function presentToScreen(taskList) {
     const unOrdered = document.createElement('ul')
     const centerDiv = document.querySelector('.centerDiv')
     centerDiv.textContent = ''
+    const head = document.createElement('h1')
+    head.textContent = 'Personal Tasks'
+    head.id = 'head'
+    centerDiv.append(head)
+
     if (!unOrdered) {
         unOrdered = document.createElement('ul');
         centerDiv.appendChild(unOrdered);
@@ -242,6 +248,12 @@ function presentToScreen(taskList) {
 
         let listItem = document.createElement('li')
         listItem.className = 'listItem'
+
+        const titleDivhead = document.createElement("h2");
+        titleDivhead.classList.add("titleDivhead")
+        titleDivhead.textContent = 'Title'
+
+
         const titleDiv = document.createElement("h2");
         titleDiv.classList.add("titleH2")
         titleDiv.textContent = taskList[i].title;
@@ -251,6 +263,10 @@ function presentToScreen(taskList) {
         });
         // displayDiv.appendChild(titleDiv);
 
+        const descDivHead = document.createElement("h2");
+        descDivHead.classList.add("descDivHead")
+        descDivHead.textContent = 'Description'
+
         const descDiv = document.createElement("p");
         descDiv.classList.add("descDiv")
         descDiv.textContent = taskList[i].description;
@@ -258,6 +274,10 @@ function presentToScreen(taskList) {
         descDiv.addEventListener("blur", () => {
             taskList[i].description = descDiv.textContent
         })
+
+        const dateDivTitle = document.createElement("h3");
+        dateDivTitle.classList.add("dateDivTitle")
+        dateDivTitle.textContent = 'Due on'
 
         const dateDiv = document.createElement("span");
         dateDiv.classList.add("dateDiv")
@@ -267,8 +287,14 @@ function presentToScreen(taskList) {
             taskList[i].date = dateDiv.textContent
         })
 
+        const dateUp = document.createElement("div")
+        dateUp.append(dateDivTitle, dateDiv)
+        dateUp.className = 'dateUp'
+
         const priorityDivHeading = document.createElement("h3");
         priorityDivHeading.id = 'priorityDivHeading'
+        priorityDivHeading.textContent = 'Priority'
+
 
         const priorityDiv = document.createElement("div");
         priorityDiv.classList.add("priorityDiv")
@@ -278,32 +304,56 @@ function presentToScreen(taskList) {
             taskList[i].priority = priorityDiv.textContent
         })
 
-        const deleteBtn = document.createElement('button')
-        deleteBtn.textContent = 'delete'
+        const priorityup = document.createElement("div")
+        priorityup.append(priorityDivHeading, priorityDiv)
+        priorityup.id = 'priorityup'
+
+        // const deleteBtn = document.createElement('button')
+        // deleteBtn.textContent = 'delete'
+        // deleteBtn.className =
+
+        // new
+        const deleteBtn = document.createElement("button")
         deleteBtn.className = 'delete'
-        const editBtn = document.createElement('button')
-        editBtn.textContent = 'edit'
-        editBtn.className = 'edit'
+        deleteBtn.innerHTML = ''
+        // start
 
 
+        const trashSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        trashSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        trashSvg.setAttribute("viewBox", "0 0 24 24");
+        trashSvg.setAttribute("height", "30px"); // Set height
+        trashSvg.setAttribute("width", "30px"); // 
+        trashSvg.setAttribute("backgroundColor", "steelBlue")
+        trashSvg.style.marginLeft = "5px";
+        const trashSvg2 = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        trashSvg2.textContent = ' delete';
+        trashSvg.appendChild(trashSvg2);
 
-        // listItem.textContent = `Title: ${task.title}, Description ${task.description}, Date: ${task.date}, Priority: ${task.priority}`;
-        listItem.append(titleDiv, descDiv, dateDiv, priorityDivHeading, priorityDiv, deleteBtn, editBtn)
+        // Create a path element within the SVG
+        const svgPathTrash = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        svgPathTrash.setAttribute("d", "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z");
+        svgPathTrash.style.fill = "#00A676"
+        trashSvg.appendChild(svgPathTrash);
+
+        deleteBtn.style.display = "flex"; // Use flexbox for layout
+        deleteBtn.style.alignItems = "center";
+
+        deleteBtn.append(trashSvg)
+        listItem.append(titleDivhead, titleDiv, descDivHead, descDiv, dateUp, priorityup, deleteBtn)
         unOrdered.append(listItem)
         console.log(listItem)
         centerDiv.append(unOrdered)
 
-        // centerDiv.innerHTML = ''
+        deleteBtn.addEventListener('click', (e) => {
+
+
+        })
     }
     // console.log(unOrdered);
 
 
 }
-
-
-
-
-
 
 
 
